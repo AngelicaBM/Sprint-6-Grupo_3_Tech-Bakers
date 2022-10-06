@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head.ejs') %> 
+    <link rel="stylesheet" href="/css/cart-style.css" type="text/css">
+    <title>Carrito</title>
+</head>
+<body>
+    <%- include('../partials/header.ejs') %> 
+    <main>
+        <section class="cart">
+            <h2>Tu carrito<i class="fa-solid fa-cart-shopping"></i></h2>
+            <div class="cart-table-container">
+                <table class="cart-table">
+                    <thead>    
+                        <tr>
+                            <td class="cart-table-image">Imagen</td>
+                            <td class="cart-table-description">Producto</td>
+                            <td class="cart-table-price">Precio</td>
+                            <td class="cart-table-quantity">Cantidad</td>
+                            <td class="cart-table-total">Total</td>
+                            <td class="cart-table-delete"></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>    
+                </table>
+            </div>
+            <div class="cart-bottom">
+                <div class="total-price-container">
+                    <div class="total-price">
+                        <p></p>
+                    </div>
+                </div>
+                <div class="return">
+                    <p><a href="/"><i class="fa-solid fa-angle-left"></i> Seguir comprando</a></p>
+                </div>
+                <div class="confirm-cart">
+                    <p><a href="#">Confirmar</a></p>
+                </div>
+            </div>
+        </section>
+    </main>
+    <%- include('../partials/footer.ejs') %> 
+    <script src="/js/displayCart.js"></script>
+</body>
+</html>
