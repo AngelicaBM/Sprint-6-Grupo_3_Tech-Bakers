@@ -1,30 +1,46 @@
-const {body} = require('express-validator');
-const path = require('path');
+const { body } = require("express-validator");
 
-validations = [
-    body('categoryId').notEmpty().withMessage('Debe seleccionar una categoria de producto.'),
-    body('typeId').notEmpty().withMessage('Debe seleccionar un tipo de producto.'),
-    body('description').isLength({min:8}).withMessage('Debe completar la descripción y debe tener mínimo 8 caracteres.'),
-    body('image').custom((value,{req})=> {
-        if(!req.files.length > 0){
-            throw new Error('Debe cargar una imagen');
-        } else {
-            let extensions = [".jpg", ".png", ".jpeg"];
-            let files = req.files;
-            files.forEach(file => {
-                let fileExtension = path.extname(file.originalname);
-                if(!extensions.includes(fileExtension)){
-                    throw new Error('Las extensiones de imagén aceptada son'+ extensions.join(' '));
-                };
+const path = require("path");
+
+const productCreateValidation = [
+    body('name').notEmpty().withMessage("No puede estar el campo vacio").bail()
+    .isLength({ min: 3 }).withMessage('Debes escribir un nombre de producto con más de 3 caracteres'),
+   
+    body("typeId")
+    .notEmpty().withMessage("Debe seleccionar un tipo"),
+
+	body('price')
+    .notEmpty().withMessage("No puede estar el campo vacio"),
+    
+    body("categoryId")
+    .notEmpty().withMessage("Debe seleccionar una categoría"),
+
+	body('description').notEmpty().withMessage('Debe escribir una descripción').bail()
+	.isLength({ min: 10 }).withMessage('Debe escribir como mínimo 10 letras o caracteres'),
+
+    body('stock')
+    .notEmpty().withMessage("No puede estar el campo vacio"),
+
+/* 	body("image")
+        .custom((value, {req}) => {
+            // const files = req.files; // La linea de abajo hace lo mismo
+            const { files } = req;
+	
+            if(files.length === 0){
+               throw new Error("Debes subir al menos una imagen");
+            }
+                
+            const extensionesValidas = [".png", ".jpg", ".jpeg"];
+
+            files.forEach( file => {
+                const fileExtension = path.extname(file.originalname)
+                if(!extensionesValidas.includes(fileExtension)){
+                    throw new Error(`Los formatos de imagen validos son ${extensionesValidas.join(', ')}`);
+                }
             })
-        }
-        return true;
-    }),
-    body('price').isFloat({min:0}).withMessage('El precio debe ser un número mayor a 0'),
-    body('discount').isInt({max:100}).withMessage('El descuento debe ser un número menor a 100% '),
-    body('brandId').notEmpty().withMessage('Debe ingresar la marca del producto'),
-    body('model').notEmpty().withMessage('Debe ingresar el modelo del producto')
+            
+            return true; 
+        }),	 */
+]
 
-];
-
-module.exports = validations;
+module.exports = productCreateValidation;

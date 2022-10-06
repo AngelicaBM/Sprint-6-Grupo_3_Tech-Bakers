@@ -1,89 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <%- include('../partials/head.ejs') %> 
-    <link rel="stylesheet" href="/css/register-style.css" type="text/css">
-    <title>Bici Mundo-Registro</title>
-</head>
+<!-- Head.ejs -->
+<%- include ('../partials/head.ejs') %> 
 <body>
-    <%- include('../partials/header.ejs') %> 
-    <main>
-        <div class="register">
-            <h2>CREA TU CUENTA</h2>
-            <form action="/usuarios/registro" method="POST" enctype="multipart/form-data" class="register-form">
-                <div class="user-image">
-                    <i class="fa-solid fa-circle-user"></i>
-                    <label for="user-image">Carga tú foto de perfil</label>
-                    <span class="image-value"></span>
-                    <input type="file" name="image" id="user-image" style="visibility: hidden;" accept=".jpg, .png, .jpeg" />
-                    <small class="feedback"> <%= locals.errors && errors.image ? errors.image.msg : null %>  </small>
+    <!-- Header.ejs -->
+    <%- include ('../partials/header.ejs')  %> 
+    <main class="main-register">
+        <div class="formulario-de-registro">      
+            <div class="form-select">
+                <div class="select1">
+                <a>
+                <h2>Crear Cuenta</h2>
+                </a>
                 </div>
-                <div class="fill-form">
-                    <diV class="form-control user-name">
-                        <label for="id">Nombre:</label>
-                        <input type="text" name="firstName" placeholder="John" required id="name" minLength="2" value="<%= locals.oldData && oldData.firstName %>">
-                        <i class="fa-solid fa-circle-check"></i>
-                        <i class="fas fa-exclamation-circle"></i>
-                        <small class="feedback"> <%= locals.errors && errors.firstName ? errors.firstName.msg : null %> </small>
-                    </diV>
-                    <div class="form-control user-last-name">
-                        <label for="last-name">Apellido:</label>
-                        <input type="text" name="lastName" placeholder="Doe" required id="last-name" minLength="2" value="<%= locals.oldData && oldData.lastName %>">
-                        <i class="fa-solid fa-circle-check"></i>
-                        <i class="fas fa-exclamation-circle"></i>
-                        <small class="feedback"> <%= locals.errors && errors.lastName ? errors.lastName.msg : null %> </small>
+            </div>
+            <form class="inputs" action="/users/register" method="POST" enctype="multipart/form-data">
+                <div class="form-data">
+                    <label for="fullname"> Nombre: </label>
+                    <input 
+                        type="text" 
+                        name="fullname" 
+                        id="fullname"
+                        value= "<%= locals.oldData ? oldData.fullname: null %>" 
+                    >
+                    <% if (locals.errors && errors.fullname) { %>
+                        <div class="form-error">
+                            <%= errors.fullname.msg %>
                     </div>
-                    <div class="form-control user-date-of-birth">
-                        <label for="date">Fecha de nacimiento:</label>
-                        <input type="date" name="birthdate" value="1987-01-25" required id="date" min="1900-01-01" max="2010-01-01" value="<%= locals.oldData && oldData.birthdate %>">
-                        <i class="fa-solid fa-circle-check"></i>
-                        <i class="fas fa-exclamation-circle"></i>
-                        <small class="feedback"> <%= locals.errors && errors.birthdate ? errors.birthdate.msg : null %> </small>
-                    </div>
-                    <div class="form-control user-email">
-                        <label for="email">Email:</label>
-                        <input type="email" name="email" placeholder="johndow@mail.com" required id="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" value="<%= locals.oldData && oldData.email %>">
-                        <i class="fa-solid fa-circle-check"></i>
-                        <i class="fas fa-exclamation-circle"></i>
-                        <small class="feedback"> <%= locals.errors && errors.email ? errors.email.msg : null %> </small>
-                    </div>
-                    <div class="form-control user-password">
-                        <label for="password">Password:</label>
-                        <input type="password" name="password" placeholder="Password" required id="password" minLength="8">
-                        <i class="fa-solid fa-circle-check"></i>
-                        <i class="fas fa-exclamation-circle"></i>
-                        <small class="feedback"> <%= locals.errors && errors.password ? errors.password.msg : null %> </small>
-                    </div>
-                    <div class="form-control user-confirm-password">
-                        <label for="confirm-password">Confirmar contraseña:</label>
-                        <input type="password" name="user-confirm-password" placeholder="Repeat password" required id="confirm-password" minLength="8">
-                        <i class="fa-solid fa-circle-check"></i>
-                        <i class="fas fa-exclamation-circle"></i>
-                        <small class="feedback"> <%= locals.errors && errors["user-confirm-password"] ? errors["user-confirm-password"].msg : null %> </small>
-                    </div>
-                    <div class="form-control user-phone">
-                        <label for="phone">Telefono (opcional):</label>
-                        <input type="tel" name="phoneNumber" placeholder="+54 911 5678 1234" id="phone" value="<%= locals.oldData && oldData.phonenumber %>">
-                        <i class="fa-solid fa-circle-check"></i>
-                        <i class="fas fa-exclamation-circle"></i>
-                        <small class="feedback"></small>
-                    </div>
-                    <div class="user-terms">
-                        <label class="register-term" for="terminos">
-                            Acepto Términos y Condiciones
-                            <input type="checkbox" name="userTerms" id="terminos" required>
-                        </label>
-                        <small class="feedback"> <%= locals.errors && errors['userTerms'] ? errors['userTerms'].msg : null %> </small>
-                    </div>
+                    <% } %>
                 </div>
-                <div class="submit-form">
-                    <button type="reset">Limpiar</button>    
-                    <button type="submit">Confirmar</button>
+                <div class="form-data">
+                    <label for="lastname"> Apellido: </label>
+                    <input 
+                        type="text" 
+                        name="lastname" 
+                        id="lastname"
+                        value= "<%= locals.oldData ? oldData.lastname: null %>" 
+                    >
+                    <% if (locals.errors && errors.lastname) { %>
+                        <div class="form-error">
+                            <%= errors.lastname.msg %>
+                    </div>
+                    <% } %>
                 </div>
+                <div class="form-data">
+                    <label for="email"> Email: </label>
+                    <input 
+                        type="email" 
+                        name="email" 
+                        id="email"
+                        value= "<%= locals.oldData ? oldData.email: null %>" 
+                    >
+                    <% if (locals.errors && errors.email) { %>
+                        <div class="form-error">
+                            <%= errors.email.msg %>
+                    </div>
+                    <% } %>
+                </div>
+                <div class="form-data">
+                    <label for="phonenumber"> Teléfono: </label>
+                    <input 
+                        type="number" 
+                        name="phonenumber" 
+                        id="phonenumber"
+                        value= "<%= locals.oldData ? oldData.phonenumber: null %>" 
+                    >
+                    <% if (locals.errors && errors.phonenumber) { %>
+                        <div class="form-error">
+                            <%= errors.phonenumber.msg %>
+                    </div>
+                    <% } %>
+                </div>
+                <div class="form-data">
+                    <label for="address"> Dirección: </label>
+                    <input 
+                        type="text" 
+                        name="address" 
+                        id="address"
+                        value= "<%= locals.oldData ? oldData.address: null %>" 
+                    >
+                    <% if (locals.errors && errors.address) { %>
+                        <div class="form-error">
+                            <%= errors.address.msg %>
+                    </div>
+                    <% } %>
+                </div>
+                <div class="form-data">
+                    <label for="city"> Ciudad: </label>
+                    <input 
+                        type="text" 
+                        name="city" 
+                        id="city"
+                        value= "<%= locals.oldData ? oldData.city: null %>" 
+                    >
+                    <% if (locals.errors && errors.city) { %>
+                        <div class="form-error">
+                            <%= errors.city.msg %>
+                    </div>
+                    <% } %>
+                </div>
+                <div class="form-data">
+                    <label for="contraseña"> Contraseña: </label>
+                    <input 
+                        type="password" 
+                        name="password" 
+                        id="password"
+                        value= "<%= locals.oldData ? oldData.password: null %>" 
+                    >
+                    <% if (locals.errors && errors.password) { %>
+                        <div class="form-error">
+                            <%= errors.password.msg %>
+                    </div>
+                    <% } %>
+                </div>
+                <div class="form-data">
+                    <label for="repetirpassword"> Repetir contraseña: </label>
+                    <input 
+                        type="password" 
+                        name="repetirpassword" 
+                        id="repetirpassword"
+                        value= "<%= locals.oldData ? oldData.repetirpassword: null %>" 
+                    >
+                    <% if (locals.errors && errors.repetirpassword) { %>
+                        <div class="form-error">
+                            <%= errors.repetirpassword.msg %>
+                    </div>
+                    <% } %>
+                </div>
+                <div class="form-data">
+                    <label for="avatar"> Imagen de perfil: </label>
+                    <input 
+                        type="file" 
+                        name="avatar" 
+                        id="avatar"
+                        accept=".jpg, .png" 
+                    >
+                    <% if (locals.errors && errors.avatar) { %>
+                        <div class="form-error">
+                            <%= errors.avatar.msg %>
+                    </div>
+                    <% } %>
+                </div>
+                <div class="form-data-register">
+                    <input type="checkbox" name="terms"  value="terms" required> Acepto terminos y condiciones.
+                </div>
+
+                <div class="form-data" id="form-data">
+                    <button class="form-button" type="submit" Enviar> Aceptar
+                </div>            
             </form>
         </div>
     </main>
-    <%- include('../partials/footer.ejs') %> 
-    <script src="/js/userRegisterValidation.js"></script>
+       <!-- Footer.ejs -->
+       <%- include ('../partials/footer.ejs') %> 
 </body>
 </html>

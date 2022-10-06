@@ -1,91 +1,62 @@
 <header>
-    <div class="top-header">
-        <form class="search-bar" method="GET" action="/productos/buscar">
-            <button type="submit" class="search-button">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-            <input type="text" name="search" class="search-input" placeholder="Buscar bicicletas y accesorios.">
-        </form>
+    <section class="top-header">
         <figure class="logo">
-            <a href="/"><img src="/images/logo3.png" alt="logo-bicimundo"></a>
+            <a href="/"><img src="/images/PavlovaColor.png" alt="Logo de Pavlova"></a>
         </figure>
-        <nav class="top-navbar">
-            <ul>
-                <% if (locals.isLogged) { %>
-                    <li>
-                        
-                        <a href="/usuarios/detalle/<%= isLogged.id %>">
-                        
-                            <img src="/images/users/<%= isLogged.image %> " 
-                            alt="Imagen de usuario" 
-                            style="border-radius: 100%; width: 30px; vertical-align:top; margin-right: 10px; position: relative; top: -3px">
-
-                            <%= isLogged.firstName %>
-
-                        </a>
-                    </li>
-                    <li><a href="/usuarios/logout">Cerrar Sesión</a></li>
+        <div class="name">Pavlova</div>
+        <form class="form" method="GET" action="/products/buscar">
+            <button type="submit" class="submit">
+                <i class="fa fa-search"></i>
+            </button>
+            <input type="text" name="search" class="input" placeholder="Buscar" >
+        </form>
+        <div class="iconos">    
+            <div class="no-vis">
+                <% if (!locals.isLogged) { %>
+                <a href="/users/register"><p class="opc-menu">Creá tu cuenta </p><i class="far fa-address-card"></i></a>
+                <a href="/users/login"><p class="opc-menu">Ingresá </p><i class="fas fa-user-circle"></i></a>
                 <% } else { %>
-                    <li><a href="/usuarios/registro">Crear Cuenta</a></li>
-                    <li><a href="/usuarios/ingresar">Iniciar Sesión</a></li>
-                <% } %>
-                <li><a href="/usuarios/carrito"><i class="fa-solid fa-cart-shopping"></i></a></li>
-            </ul>
-        </nav>
-        <div class="sign-in" id="perfil">
-            <% if (locals.isLogged) { %>
-                <a href="/usuarios/detalle/<%= isLogged.id %>">
-                    <img src="/images/users/<%= isLogged.image %> " alt="Imagen de usuario" style="border-radius: 100%; width: 30px; vertical-align:middle;box-shadow: 0 0 5px #fff;">
-                </a>
-                <a class="logout" href="/usuarios/logout" style="font-size: 14px;text-shadow: none;">
-                    Cerrar sesion
-                </a>
-            <% } else { %>
-                <a href="/usuarios/ingresar">
-                    <i class="fa-solid fa-circle-user" style="vertical-align:middle;"></i>
-                </a>
-            <% } %>
-            <a href="/usuarios/carrito">
-                <i class="fa-solid fa-cart-shopping" style="vertical-align:middle;"></i>
-            </a>
+
+                    <a href="/users/profile/<%= locals.userLogged.id %>"><p class="opc-menu"></p><img src="/images/avatars/default-user.png  %>" alt="img-perfil"></i></a>
+                    <a href="/users/logout"><p class="opc-menu">Cerrar Sesión </p><i class="fas fa-sign-out-alt"></i></a>
+                        <% } %>
+            </div>
+                <div class="car-comp">
+                <a href="/products/productCart"><i class="fas fa-shopping-bag"></i></a>
+                </div>
         </div>
+    </section>
+   <section>
+    <nav>
+        <% if (!locals.isLogged == 1) { %>
+        <ul class="submenu">
+            <li><a href="/">Nosotros</li></a>
+            <li><a href="/products/pasteleria">Pasteleria</li></a>
+            <li><a href="/products/masas">Masas</li></a>
+            <li><a href="/products/tortas">Tortas</li></a>
+            <% } else  {%>
+                <% if (locals.userLogged.roleId == 1) { %>
+                    <ul class="submenu">
+                        <li><a href="/">Nosotros</li></a>
+                        <li><a href="/products/pasteleria">Pasteleria</li></a>
+                        <li><a href="/products/masas">Masas</li></a>
+                        <li><a href="/products/tortas">Tortas</li></a>
+                        <li><a href="/products/productedit">Editar</li></a>
+                        <li><a href="/products/create">Crear</li></a>
+            <% } else  {%>
+                <% if (locals.userLogged.roleId == 2 || " ") { %>
+                    <ul class="submenu">
+                        <li><a href="/">Nosotros</li></a>
+                        <li><a href="/products/pasteleria">Pasteleria</li></a>
+                        <li><a href="/products/masas">Masas</li></a>
+                        <li><a href="/products/tortas">Tortas</li></a>
+                    <% } %>
+                 <% } %>
+            <% } %>
+        </ul>
+    </nav>
+    <div class="desplegable-menu">
+        <i class="fa-solid fa-circle-chevron-down"></i>
     </div>
-    <div class="down-header">
-        <nav class="down-navbar">
-            <ul>
-                <li><a href="/">HOME</a></li>
-                <li><a href="/productos">PRODUCTOS</a></li>
-                <li><a href="/nosotros">QUIENES SOMOS</a></li>
-                <li><a href="/contacto">CONTACTO</a></li>
-                <li><a href="/ayuda">AYUDA</a></li>
-                <% if (locals.isLogged && isLogged.roleId == 1) { %>
-                    <li><a href="/productos/create">ADMIN</a></li>
-                <% } %>
-            </ul>
-        </nav>
-    </div>
-    <div class="burger-menu">
-        <nav class="navigation">
-            <label class="burger-menu1" for="burger"><i class="fa-solid fa-bars"></i></label>
-            <input type="checkbox" class="burger-check" id="burger">
-            <ul class="burger-options">
-                <li><a href="/">Home</a></li>
-                <li><a href="/productos">Productos</a></li>
-                <li><a href="/nosotros">Quienes somos</a></li>
-                <li><a href="/contacto">Contacto</a></li>
-                <li><a href="/ayuda">Ayuda</a></li>
-                <% if (locals.isLogged) { %>
-                    <li><a href="/usuarios/detalle/<%= isLogged.id %>">Mi perfil</a></li>
-                    <li><a href="/usuarios/logout">Cerrar Sesión</a></li>
-                <% } else { %>
-                    <li><a href="/usuarios/registro">Crear Cuenta</a></li>
-                    <li><a href="/usuarios/ingresar">Iniciar Sesión</a></li>
-                <% } %>
-                <li><a href="/usuarios/carrito">Carrito<i class="fa-solid fa-cart-shopping"></i></a></li>
-                <% if (locals.isLogged && isLogged.roleId == 1) { %>
-                    <li><a href="/productos/create">ADMIN</a></li>
-                <% } %>
-            </ul>
-        </nav>
-    </div>
+    </section>
 </header>

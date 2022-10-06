@@ -1,39 +1,47 @@
-const {body} = require ('express-validator');
-const path = require ('path');
+const {body} = require('express-validator');
+const path= require('path')
 
-validations = [
-    body('image').custom((value, {req}) => {
-        if (req.file) {
-            const validExtensions = ['.jpg', '.png', '.jpeg'];
-            let file = req.file;
-            if(!validExtensions.includes(path.extname(file.filename))){
-                throw new Error('Las extenciones validas son: ' + validExtensions.join(', '));
-            };
-        }
-        return true;
-    }),
-    body('firstName')
-        .notEmpty().withMessage('Campo obligatorio').bail()
-        .isLength({min:2}).withMessage('Debes insertar un nombre con dos caracteres como mínimo'),
-    body('lastName')
-        .notEmpty().withMessage('Campo obligatorio').bail()
-        .isLength({min:2}).withMessage('Debes insertar un apellido con dos caracteres como mínimo'),
-    body('birthdate')
-        .isDate().withMessage('Campo obligatorio'),
-    body('email').notEmpty().withMessage('Campo obligatorio').bail()
-        .isEmail().withMessage('Debes introducir in email válido'),
+const userRegisterValidation = [
+    
+    body('fullname').notEmpty().withMessage('Por favor ingrese su nombre.').bail()
+        .isLength({ min: 2 }).withMessage("El nombre debe contener al menos 2 caracteres"),
+    body('lastname').notEmpty().withMessage('Por favor ingrese su apellido.').bail()
+        .isLength({ min: 2 }).withMessage("El nombre debe contener al menos 2 caracteres"),
+    body('email').notEmpty().withMessage('Por favor introduzca un correo electrónico.').bail()
+        .isEmail().withMessage("El formato de correo no es válido"),
+    body('phonenumber').notEmpty().withMessage('Por favor introduzca un telefono de contacto.'),
+    body('address').notEmpty().withMessage('Indique su direccion'),
+    body('city').notEmpty().withMessage('Indique su ciudad'),
     body('password').custom((value, {req})=>{
-        if (req.body.password && value.length < 8){
-            throw new Error ('La contraseña debe contener 8 caracteres como mínimo')
+        if (req.body.password && value.length < 4){
+            throw new Error ('La contraseña debe contener 4 caracteres como mínimo')
         }
         return true;
     }),
-    body('user-confirm-password').custom((value, {req})=> {
-            if(req.body.password && value != req.body.password) {
-                throw new Error('Las contraseñas no coinciden')
-            }
-            return true;
-        }),
-];
+    body('repetirpassword').custom((value, {req})=> {
+        if(req.body.password && value != req.body.password) {
+            throw new Error('Las contraseñas no coinciden')
+        }
+        return true;
+    }),
 
-module.exports = validations;
+    body('image').custom((value, { req }) => {
+        // const files = req.files; // La linea de abajo hace lo mismo
+        const { file } = req;
+
+        if(file){
+            const acceptedExtensions = [".png", ".jpg", ".jpeg"];
+
+            const fileExtension = path.extname(file.originalname);
+
+            if(!acceptedExtensions.includes(fileExtension)){
+                throw new Error(`Los formatos de imagen validos son ${acceptedExtensions.join(', ')}`);
+            }
+        }   
+        
+        return true; 
+    })
+
+]
+
+module.exports = userRegisterValidation;

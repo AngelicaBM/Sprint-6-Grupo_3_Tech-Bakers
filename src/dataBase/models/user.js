@@ -1,4 +1,3 @@
-const moment = require('moment');
 'use strict';
 const {
   Model
@@ -10,41 +9,24 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models) {
+     static associate(models) {
       // define association here
+     
       this.belongsTo(models.Role);
+
+      this.hasMany(models.Photo);
     }
   }
   User.init({
-    firstName: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    lastName: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    birthdate: {
-      type: DataTypes.DATE,
-      get() {
-        return moment(this.getDataValue('birthdate')).format("YYYY-MM-DD")},
-    },
-    email: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    password: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    image: {
-      type: DataTypes.TEXT,
-      defaultvalue: "default-user.png",
-    },
-    roleId: {
-      type: DataTypes.INTEGER,
-      defaultValue: 2
-    }
+    fullname: DataTypes.STRING,
+    lastname: DataTypes.STRING,
+    email: DataTypes.STRING,
+    phonenumber: DataTypes.INTEGER,
+    address: DataTypes.STRING,
+    city: DataTypes.STRING,
+    password: DataTypes.STRING,
+    terms: DataTypes.STRING,
+    roleId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'User',

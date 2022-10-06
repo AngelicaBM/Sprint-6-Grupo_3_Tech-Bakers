@@ -1,10 +1,13 @@
+// Acá nos falta express y el router
 const express = require('express');
 const router = express.Router();
-const mainController = require('../controllers/mainController');
 
+// Aća nos falta traer el controller
+const mainController = require('../controllers/mainController.js');
+
+// Acá definimos las rutas
 router.get('/', mainController.index);
-router.get('/contacto', mainController.contact);
-router.get('/ayuda', mainController.help);
-router.get('/nosotros', mainController.about);
 
+
+// Acá exportamos el router
 module.exports = router;

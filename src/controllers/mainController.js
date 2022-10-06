@@ -1,25 +1,29 @@
 const fs = require('fs');
 const path = require('path');
+const nosotros = require('../dataBase/nosotros.js');
 const {Product, Image} = require('../dataBase/models');
 const toThousand = n => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+const db = require('../dataBase/models');
+const universalModel = require('../model/universalModel.js');
+const productModel = universalModel ('products')
 
-controller = {
+const mainController = {
     index : async (req,res) => {
         try {
-            const products = await Product.findAll({
-                include: [Image]
+            const images = await db.Image.findAll();
+            const products =  await db.Product.findAll(
+                {include: [db.Image]
             });
-            const highlight = products.filter(product => product.discount != 0);  
-            highlight.splice(8);   
-            res.render('main/index',{highlight,toThousand});
+			const destacados = products.filter(product => product.Category =! 0);
+            destacados.splice(4)
+
+            res.render('products/index',{products,images,nosotros,destacados,toThousand});
         } catch (error) {
             res.json({error: error.message})
         }
         
     },
-    contact :(req,res) => res.render('main/contact'),
-    help : (req,res) => res.render('main/help'),
-    about : (req,res) => res.render('main/about'),
 };
+    
 
-module.exports = controller;
+module.exports = mainController;
